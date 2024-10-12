@@ -15,16 +15,20 @@ fun Input(
     stateInput: MutableState<String>,
     errorState: MutableState<Boolean>,
     label: String,
+    validation: (String) -> Boolean,
     modifier: Modifier = Modifier
 ) {
     OutlinedTextField(
         value = stateInput.value,
-        onValueChange = { stateInput.value = it },
+        onValueChange = {
+            stateInput.value = it
+            errorState.value = !validation(it)//manage error state inside onValueChange
+        },
         label = { Text(text = label) },
         modifier = modifier.then(
             Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .padding(4.dp)
                 .wrapContentHeight()
         ),
         isError = errorState.value

@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.bottomsheetcontact_22.R
-import com.example.bottomsheetcontact_22.ui.model.Contact
+import com.example.bottomsheetcontact_22.model.Contact
 
 
 @Composable
@@ -67,6 +67,8 @@ fun DisplayContactOnScreen(
                 Text(text = "Phone: ${contact.phone}")
                 Text(text = "Address: ${contact.address}")
                 Text(text = "Email: ${contact.email}")
+                Text(text="time: ${contact.time}")
+                Text(text="Date: ${contact.date}")
             }
 
             Icon(imageVector = Icons.Default.Edit, contentDescription = null)

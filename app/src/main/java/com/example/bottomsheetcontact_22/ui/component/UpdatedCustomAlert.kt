@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -27,11 +25,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.contact_21in.isEmailValid
-import com.example.contact_21in.isNameValid
-import com.example.contact_21in.isPhoneValid
+import com.example.bottomsheetcontact_22.model.Contact
 import com.example.bottomsheetcontact_22.ui.component.Input
-import com.example.bottomsheetcontact_22.ui.model.Contact
+import com.example.bottomsheetcontact_22.ui.isEmailValid
+import com.example.bottomsheetcontact_22.ui.isNameValid
+import com.example.bottomsheetcontact_22.ui.isPhoneValid
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,17 +41,17 @@ fun UpdateCustomAlert(
 
     ) {
 
-    var nameState = remember { mutableStateOf(contact.name) }
-    var phoneState = remember { mutableStateOf(contact.phone) }
-    var addressState = remember { mutableStateOf(contact.address) }
-    var emailState = remember { mutableStateOf(contact.email) }
+    val nameState = remember { mutableStateOf(contact.name) }
+    val phoneState = remember { mutableStateOf(contact.phone) }
+    val addressState = remember { mutableStateOf(contact.address) }
+    val emailState = remember { mutableStateOf(contact.email) }
 
-    var errorName = remember { mutableStateOf(true) }
-    var errorPhone = remember { mutableStateOf(true) }
-    var errorAddress = remember { mutableStateOf(false) }
-    var errorEmail = remember { mutableStateOf(true) }
+    val errorName = remember { mutableStateOf(false) }
+    val errorPhone = remember { mutableStateOf(false) }
+    val errorAddress = remember { mutableStateOf(false) }
+    val errorEmail = remember { mutableStateOf(false) }
 
-    var sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState()
 
     ModalBottomSheet(
         sheetState = sheetState,
@@ -65,9 +63,7 @@ fun UpdateCustomAlert(
 
         Box(
             modifier = Modifier
-//            .then(modifier)//                .align(Alignment.Center) //from parent
-//            .height(450.dp)
-//            .width(300.dp)
+
                 .background(Color.White, RoundedCornerShape(10.dp))
                 .clip(RoundedCornerShape(10.dp))
         ) {
@@ -77,26 +73,16 @@ fun UpdateCustomAlert(
                     .fillMaxSize()
             ) {
                 Text("update contact?")
-                Input(nameState, errorName, label = "name")
-                Input(phoneState, errorPhone, label = "phone")
-                Input(addressState, errorAddress, label = "Address")
-                Input(emailState, errorEmail, label = "email")
+                Input(nameState, errorName, label = "name", validation = { it.isNameValid() })
+                Input(phoneState, errorPhone, label = "phone", validation = { it.isPhoneValid() })
+                Input(
+                    addressState,
+                    errorAddress,
+                    label = "Address",
+                    validation = { it.isNameValid() })
+                Input(emailState, errorEmail, label = "email", validation = { it.isEmailValid() })
 
-                if ((nameState.value).isNameValid()) {
-                    errorName.value = false
-                } else {
-                    errorName.value = true
-                }
-                if (emailState.value.isEmailValid()) {
-                    errorEmail.value = false
-                } else {
-                    errorEmail.value = true
-                }
-                if (phoneState.value.isPhoneValid()) {
-                    errorPhone.value = false
-                } else {
-                    errorPhone.value = true
-                }
+
 
                 Row(
                     modifier = Modifier
@@ -106,7 +92,7 @@ fun UpdateCustomAlert(
                 ) {
                     Button(onClick = {
 
-                        isUpdateSheetOpen.value = false;
+                        isUpdateSheetOpen.value = false
 
                     }) { Text("Cancel") }
 
